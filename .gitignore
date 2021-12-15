@@ -1,3 +1,4 @@
-*.txt
+NUIDList.txt
+settings.txt
 __pycache__/
 bot-env/
