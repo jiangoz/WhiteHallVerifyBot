@@ -1,4 +1,5 @@
 NUIDList.txt
-settings.txt
+.env
 __pycache__/
 bot-env/
+.vscode/
