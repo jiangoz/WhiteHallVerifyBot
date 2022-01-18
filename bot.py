@@ -1,28 +1,24 @@
 import discord
 from discord.ext import commands
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
+PREFIX = os.getenv('PREFIX')
+TOKEN = os.getenv('TOKEN')
 
 intents = discord.Intents.default()
 intents.members = True
 
-# read from settings file
-f = open("settings.txt", "r")
-flines = f.readlines()
-for l in flines:
-    l=l.strip()
-    if l.startswith("TOKEN"):
-        tokenLine = l.split('{', 1)
-        TOKEN = tokenLine[1][:-1]
-    elif l.startswith("PREFIX"):
-        prefixLine = l.split('{', 1)
-        PREFIX = prefixLine[1][:-1]
+bot = commands.Bot(command_prefix=PREFIX,
+                   case_insensitive=True, intents=intents)
 
-bot = commands.Bot(command_prefix=PREFIX, case_insensitive=True, intents=intents)
 
 @bot.event
 async def on_connect():
     appInfo = await bot.application_info()
-    print(f'Bot Owner: {appInfo.owner.name}#{appInfo.owner.discriminator}  |  Bot Prefix: {PREFIX}')
+    print(
+        f'Bot Owner: {appInfo.owner.name}#{appInfo.owner.discriminator}  |  Bot Prefix: {PREFIX}')
     print('Successfully connected to Discord...')
 
     # load the cogs
@@ -35,8 +31,8 @@ async def on_connect():
             cogcount += 1
             coglist += cogName + ' | '
 
-            
     print(f'Loaded {cogcount} cogs: {coglist[:-3]}')
+
 
 @bot.event
 async def on_ready():
@@ -47,7 +43,7 @@ async def on_ready():
         serverlist += guild.name+' | '
     print(f'{len(bot.users)} members total')
     print(f'In {len(guilds)} servers: {serverlist[:-3]}')
-    
+
     print('\nBOT IS READY!')
 
 # Run the bot
